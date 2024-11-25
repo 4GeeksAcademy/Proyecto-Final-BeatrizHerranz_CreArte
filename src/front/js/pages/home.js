@@ -33,7 +33,7 @@ export const Home = () => {
 
 		if (!claseYaEnCarrito) {
 			actions.addCourseToCart(claseSeleccionada);
-			navigate("/cart"); // Redirige al carrito
+			navigate("/cart"); 
 		} else {
 			alert('Esta clase ya está en tu carrito.');
 		}

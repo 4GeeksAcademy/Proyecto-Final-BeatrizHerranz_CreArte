@@ -16,13 +16,13 @@ export const Navbar = ({ store }) => {
 							<Link className="nav-link active" aria-current="page" to="/">Inicio</Link>
 						</li>
 						<li className="nav-item">
-							<Link className="nav-link" to="/categories">Clases mensuales</Link>
+							<Link className="nav-link" to="/clases">Clases mensuales</Link>
 						</li>
 						<li className="nav-item">
-							<Link className="nav-link" to="/courses">Bonos regalo</Link>
+							<Link className="nav-link" to="/bonos">Bonos regalo</Link>
 						</li>
 						<li className="nav-item">
-							<Link className="nav-link" to="/courses">Contacto</Link>
+							<Link className="nav-link" to="/contacto">Contacto</Link>
 						</li>
 					</ul>
 
@@ -34,7 +34,7 @@ export const Navbar = ({ store }) => {
 					</Link>
 
 					<Link to="/login" className="btn btn-outline-primary ms-2">Iniciar Sesión</Link>
-					<Link to="/register" className="btn btn-outline-secondary ms-2">Registrarse</Link>
+					<Link to="/registro" className="btn btn-outline-secondary ms-2">Registrarse</Link>
 				</div>
 			</div>
 		</nav>

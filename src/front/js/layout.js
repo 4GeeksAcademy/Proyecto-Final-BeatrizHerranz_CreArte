@@ -6,6 +6,9 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+import Clases from "./pages/clases";
+import Registro from "./pages/registro";
+import Login from "./pages/login";
 import injectContext from "./store/appContext";
 
 import Navbar from "./component/navbar";

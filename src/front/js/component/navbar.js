@@ -21,16 +21,10 @@ export const Navbar = ({ store }) => {
 						<li className="nav-item">
 							<Link className="nav-link" to="/bonos">Bonos regalo</Link>
 						</li>
-						<li className="nav-item">
-							<Link className="nav-link" to="/contacto">Contacto</Link>
-						</li>
 					</ul>
 
 					<Link to="/cart" className="btn btn-outline-dark cart-button">
 						<i className="fas fa-shopping-cart"></i>
-						<span className="badge bg-secondary">
-							{store.cartItems.length > 0 ? store.cartItems.length : 0}
-						</span>
 					</Link>
 
 					<Link to="/login" className="btn btn-outline-primary ms-2">Iniciar Sesión</Link>

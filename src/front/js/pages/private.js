@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 export default function Private() {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
-    const [courses, setCourses] = useState([]);
     const [passwordData, setPasswordData] = useState({
         currentPassword: "",
         newPassword: "",
@@ -18,9 +17,7 @@ export default function Private() {
             return;
         }
 
-        // Simulación de llamadas a la API
         fetchUserData();
-        fetchUserCourses();
     }, [navigate]);
 
     const fetchUserData = () => {
@@ -29,14 +26,6 @@ export default function Private() {
             email: "juan.perez@example.com",
         };
         setUserData(mockUser);
-    };
-
-    const fetchUserCourses = () => {
-        const mockCourses = [
-            { id: 1, title: "Curso de React" },
-            { id: 2, title: "Curso de Node.js" },
-        ];
-        setCourses(mockCourses);
     };
 
     const handleLogout = () => {
@@ -68,8 +57,7 @@ export default function Private() {
             alert("La nueva contraseña y su confirmación no coinciden");
             return;
         }
-
-        // Aquí podrías enviar los datos a tu API
+        
         console.log("Contraseña actualizada:", { currentPassword, newPassword });
         alert("Contraseña actualizada con éxito");
         setPasswordData({ currentPassword: "", newPassword: "", confirmNewPassword: "" });
@@ -78,6 +66,18 @@ export default function Private() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
+    };
+
+    const handleDeleteProfile = () => {
+        const confirmDelete = window.confirm(
+            "¿Estás seguro de que deseas eliminar tu perfil? Esta acción no se puede deshacer."
+        );
+        if (confirmDelete) {
+            console.log("Perfil eliminado");
+            alert("Perfil eliminado con éxito");
+            sessionStorage.removeItem("token");
+            navigate("/login");
+        }
     };
 
     return (
@@ -149,25 +149,14 @@ export default function Private() {
                         </div>
                         <button type="submit" className="btn btn-primary">Actualizar Contraseña</button>
                     </form>
+                    <hr />
+                    <button onClick={handleDeleteProfile} className="btn btn-danger">Eliminar Perfil</button>
                 </div>
             ) : (
                 <p>Cargando datos del usuario...</p>
             )}
             <hr />
-            <h3>Mis Cursos</h3>
-            {courses.length > 0 ? (
-                <ul className="list-group">
-                    {courses.map(course => (
-                        <li key={course.id} className="list-group-item">
-                            {course.title}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No tienes cursos registrados.</p>
-            )}
-            <hr />
-            <button onClick={handleLogout} className="btn btn-danger">Cerrar Sesión</button>
+            <button onClick={handleLogout} className="btn btn-secondary">Cerrar Sesión</button>
         </div>
     );
 }

@@ -1,7 +1,85 @@
-/*
-    home.css: This website contains selectors only used in home.css
+body, h1, h2, h3, p {
+    font-family: 'Arial', sans-serif;
+    color: #6a4e23
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+.container {
+    padding: 30px;
+}
+
+.home-container {
+    margin-top: 100px; 
+}
+
+h1, h2, h3 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-align: center;
+}
+
+h1.display-4 {
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+h2.text-center {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+p {
+    font-size: 3rem;
+    color: #6a4e23;
+}
+
+.text-danger {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #d9534f;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.info-crearte {
+    background-color: #f8f8f8;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.info-crearte p {
+    font-size: 1.2rem;
+    color: #6a4e23;
+    text-align: center;
+}
+
+.info-crearte h2, .info-crearte h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center; 
+    margin-bottom: 20px; 
+}
+
+.mt-5 {
+    margin-top: 5rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #6a4e23;
+}

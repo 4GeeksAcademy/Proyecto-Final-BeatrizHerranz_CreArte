@@ -38,7 +38,7 @@ class UserProfile(db.Model):
     address = db.Column(db.String(200), nullable=True)
     phone = db.Column(db.String(20), nullable=True)
 
-    user = db.relationship('User', backref='profile', uselist=False)
+    user = db.relationship('User', backref='user_profile', uselist=False)
 
     def serialize(self):
         return {

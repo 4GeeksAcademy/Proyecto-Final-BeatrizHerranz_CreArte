@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from api.models import db, User
+from api.models import db, User, UserProfile
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 
@@ -54,7 +54,7 @@ def private():
 @jwt_required()
 def edit_user(id):
     current_user_email = get_jwt_identity()
-    user = User.query.get(id)
+    user = UserProfile.query.get(id)
 
     if not user or user.email != current_user_email:
         return jsonify({'error': 'No autorizado o usuario no encontrado'}), 403

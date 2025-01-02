@@ -1,21 +1,71 @@
-import React from "react";
-import Formulario from "../component/formulario";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+import Card from "../component/card";
+import '../../styles/clases.css';
 
 const Clases = () => {
+  const navigate = useNavigate();
+  const { store, actions } = useContext(Context);
+
+  const clases = [
+    {
+      id: 1,
+      nombre: 'Curso de Cerámica Básica',
+      descripcion: 'Aprende las técnicas esenciales de la cerámica y crea tus primeras piezas. Perfecto para empezar tu camino artístico.',
+      imagen: 'https://static.wixstatic.com/media/11062b_147dc3a6f24349ff9a4d332be4360d81~mv2.jpg/v1/fill/w_750,h_768,al_c,q_85,usm_1.20_1.00_0.01,enc_auto/11062b_147dc3a6f24349ff9a4d332be4360d81~mv2.jpg',
+      precio: '40 €'
+    },
+    {
+      id: 2,
+      nombre: 'Iniciación a la Alfarería',
+      descripcion: 'Domina el arte de la alfarería. Aprende a modelar arcilla y crea objetos funcionales como tazas y cuencos.',
+      imagen: 'https://static.wixstatic.com/media/aca133_8ede09a940234b0b8cadf8832ed68d57~mv2.jpg/v1/crop/x_0,y_78,w_512,h_379/fill/w_614,h_455,al_c,lg_1,q_80,usm_1.20_1.00_0.01,enc_auto/Manos2_edited.jpg',
+      precio: '50 €'
+    },
+    {
+      id: 3,
+      nombre: 'Iniciación al Modelado',
+      descripcion: 'Descubre cómo modelar piezas únicas de arcilla, desde vajillas hasta pequeñas esculturas, con técnicas básicas.',
+      imagen: 'https://static.wixstatic.com/media/aca133_7feacf9a19724ad0ba3ae0b923527db0~mv2.png/v1/fill/w_694,h_514,al_c,q_85,usm_1.20_1.00_0.01,enc_auto/BONO-INICIACION-AL-MODELADO-cua.png',
+      precio: '45 €'
+    }
+  ];
+
+  const handleInscripcion = (id) => {
+    const claseSeleccionada = clases.find(clase => clase.id === id);
+    if (!claseSeleccionada) {
+      alert("Clase no encontrada.");
+      return;
+    }
+
+    if (!store?.cartItems?.find(item => item.id === id)) {
+      actions.addCourseToCart(claseSeleccionada);
+      navigate("/cart");
+    } else {
+      alert("Esta clase ya está en tu carrito.");
+    }
+  };
+
   return (
     <div className="container mt-5">
-      <div className="mb-4">
-        <h2 className="text-center">Experimenta con la cerámica</h2>
-        <p>
-          Con las clases de cerámica y alfarería mensuales aprenderás técnicas concretas y descubrirás todas las posibilidades que te ofrece para hacer tus propias piezas. Clases de cerámica artística y alfarería mensuales.
-        </p>
-        <p>
-          Todas nuestras clases están enfocadas a iniciación. Aunque el espacio se comparte, trabajarás en tus propios proyectos. Diseñaremos las piezas que vayas a crear y te guiamos para que puedas hacerlo. De esta manera, aprenderás las diferentes técnicas a un ritmo libre y personalizado. Puedes elegir venir a clases de cerámica artística o de alfarería.
-        </p>
-      </div>
+
+      <h2 className="text-center">Experimenta con la cerámica</h2>
+      <p className="intro-text">
+        Con nuestras clases mensuales de cerámica y alfarería, aprenderás técnicas específicas y descubrirás todas las posibilidades que te ofrece para hacer tus propias piezas.
+      </p>
+      <p className="intro-text">
+        Todas nuestras clases están diseñadas para principiantes. Aunque el espacio es compartido, cada uno trabajará en sus propios proyectos. Te ayudaremos a diseñar y crear las piezas que quieras, guiándote en cada paso. De esta manera, aprenderás las diferentes técnicas a tu propio ritmo y de manera personalizada.
+      </p>
+
       <h1 className="text-center">Clases mensuales de cerámica</h1>
-      <p className="text-center">¡Reserva tu plaza ahora!</p>
-      <Formulario />
+      <div className="row">
+        {clases.map((clase) => (
+          <div className="col-md-4 col-sm-6 col-12 mb-4" key={clase.id}>
+            <Card clase={clase} onInscripcion={handleInscripcion} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

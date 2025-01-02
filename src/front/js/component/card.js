@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export const Card = ({ clase, onInscripcion }) => {
     return (
         <div className="card">

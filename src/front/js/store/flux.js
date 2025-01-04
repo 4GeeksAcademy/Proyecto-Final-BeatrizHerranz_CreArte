@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 { title: "FIRST", background: "white", initial: "white" },
                 { title: "SECOND", background: "white", initial: "white" }
             ],
-            favorites: [] // Estado de favoritos
+            favorites: [] 
         },
         actions: {
             getMessage: async () => {

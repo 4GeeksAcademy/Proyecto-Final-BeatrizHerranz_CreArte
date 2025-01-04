@@ -5,7 +5,7 @@ export const Context = React.createContext(null);
 
 const injectContext = (PassedComponent) => {
     const StoreWrapper = (props) => {
-        // Inicializa el estado sin depender de `state` mismo
+        
         const initialState = getState({
             getStore: () => state.store,
             getActions: () => state.actions,
@@ -24,7 +24,6 @@ const injectContext = (PassedComponent) => {
             }
         }, []);
 
-        // Asegurarse de que `store` esté siempre disponible
         if (!state || !state.store) {
             return <div>Loading...</div>;
         }

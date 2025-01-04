@@ -13,22 +13,22 @@ const Clases = () => {
       id: 1,
       nombre: 'Curso de Cerámica Básica',
       descripcion: 'Aprende las técnicas esenciales de la cerámica y crea tus primeras piezas. Perfecto para empezar tu camino artístico.',
-      imagen: 'https://static.wixstatic.com/media/11062b_147dc3a6f24349ff9a4d332be4360d81~mv2.jpg/v1/fill/w_750,h_768,al_c,q_85,usm_1.20_1.00_0.01,enc_auto/11062b_147dc3a6f24349ff9a4d332be4360d81~mv2.jpg',
-      precio: '40 €'
+      imagen: 'https://static.wixstatic.com/media/d1031ccfa4a545ad9ba13816fefbaf6f.jpg/v1/crop/x_266,y_0,w_4939,h_3648/fill/w_612,h_452,al_c,q_80,usm_1.20_1.00_0.01,enc_avif,quality_auto/Potter%20mujer%20haciendo%20taza%20.jpg',
+      precio: '50 €'
     },
     {
       id: 2,
       nombre: 'Iniciación a la Alfarería',
       descripcion: 'Domina el arte de la alfarería. Aprende a modelar arcilla y crea objetos funcionales como tazas y cuencos.',
-      imagen: 'https://static.wixstatic.com/media/aca133_8ede09a940234b0b8cadf8832ed68d57~mv2.jpg/v1/crop/x_0,y_78,w_512,h_379/fill/w_614,h_455,al_c,lg_1,q_80,usm_1.20_1.00_0.01,enc_auto/Manos2_edited.jpg',
-      precio: '50 €'
+      imagen: 'https://static.wixstatic.com/media/aca133_8ede09a940234b0b8cadf8832ed68d57~mv2.jpg/v1/crop/x_0,y_78,w_512,h_379/fill/w_614,h_455,al_c,lg_1,q_80,usm_1.20_1.00_0.01,enc_avif,quality_auto/Manos2_edited.jpg',
+      precio: '60 €'
     },
     {
       id: 3,
       nombre: 'Iniciación al Modelado',
       descripcion: 'Descubre cómo modelar piezas únicas de arcilla, desde vajillas hasta pequeñas esculturas, con técnicas básicas.',
-      imagen: 'https://static.wixstatic.com/media/aca133_7feacf9a19724ad0ba3ae0b923527db0~mv2.png/v1/fill/w_694,h_514,al_c,q_85,usm_1.20_1.00_0.01,enc_auto/BONO-INICIACION-AL-MODELADO-cua.png',
-      precio: '45 €'
+      imagen: 'https://static.wixstatic.com/media/aca133_7feacf9a19724ad0ba3ae0b923527db0~mv2.png/v1/fill/w_694,h_514,al_c,q_85,usm_1.20_1.00_0.01,enc_avif,quality_auto/BONO-INICIACION-AL-MODELADO-cua.png',
+      precio: '80 €'
     }
   ];
 
@@ -73,7 +73,7 @@ const Clases = () => {
             <Card 
               clase={clase} 
               onInscripcion={handleInscripcion} 
-              onFavorite={() => handleFavorite(clase)} // Añadir la lógica de favoritos aquí
+              onFavorite={() => handleFavorite(clase)} 
             />
           </div>
         ))}

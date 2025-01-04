@@ -112,8 +112,8 @@ def delete_user(id):
 def create_payment_intent():
     try:
         data = request.get_json()
-        amount = data.get('amount')  # Monto en centavos (por ejemplo, 1099 para 10.99 USD)
-        currency = data.get('currency', 'usd')  # Moneda predeterminada 'usd'
+        amount = data.get('amount')  
+        currency = data.get('currency', 'eur') 
 
         # Crear un PaymentIntent
         intent = stripe.PaymentIntent.create(

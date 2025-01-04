@@ -16,7 +16,7 @@ export const Home = () => {
         {
             src: "https://amasarte.es/wp-content/uploads/2023/11/eventos-con-amasarte.jpg",
             alt: "Imagen carrusel 2"
-        }
+        },
     ];
 
     return (
@@ -25,7 +25,7 @@ export const Home = () => {
             {/* Título y descripción principal */}
             <div className="text-center mt-5">
                 <h1 className="display-4">¡Despierta tu creatividad con CreArte!</h1>
-                <p className="lead">Descubre tu potencial artístico en nuestras clases de cerámica y alfarería.</p>
+                <h2 className="lead">Descubre tu potencial artístico en nuestras clases de cerámica y alfarería.</h2>
             </div>
 
             {/* Carrusel */}
@@ -35,24 +35,12 @@ export const Home = () => {
             <section className="info-crearte">
                 <div className="container">
                     <p>
-                        Disfruta de la iniciación a las técnicas cerámicas.
+                        Aprende a crear tus propias piezas de cerámica desde el primer día.
                     </p>
+                    <h2>¿Qué ofrecemos?</h2>
                     <p>
-                        Tú nos dices qué quieres crear y te guiamos hasta conseguirlo, avanzando a tu propio ritmo.
-                        Aunque el espacio sea compartido, trabajarás en tus propios proyectos. No hay un ritmo de trabajo fijo, diseñaremos las piezas que quieras realizar y te ayudaremos a llevarlas a cabo.
-                        La cerámica ofrece infinitas posibilidades, y si tienes un proyecto en mente, ¡estamos encantados de ayudarte!
-                    </p>
-                    <p>
-                        Puedes elegir entre clases de cerámica artística o alfarería.
-                    </p>
-                    <h2>¿Por qué elegir CreArte?</h2>
-                    <p>
-                        En CreArte, nos dedicamos a impulsar la creatividad y la pasión por el arte de la cerámica y la alfarería.
-                        Ofrecemos clases prácticas y dinámicas que te permitirán mejorar tus habilidades artísticas, todo mientras vives una experiencia única y enriquecedora.
-                    </p>
-                    <h3>¿Qué ofrecemos?</h3>
-                    <p>
-                        En CreArte, ofrecemos una amplia variedad de clases de cerámica, diseñadas para todos los niveles.
+                        En CreArte, nos dedicamos a impulsar la creatividad y la pasión por el arte de la cerámica y la alfarería. Ofrecemos una amplia variedad de clases de cerámica, diseñadas para todos los niveles.
+                        Aprenderás paso a paso a crear y decorar tus piezas desde los conceptos más básicos hasta las técnicas más complejas. 
                         Nuestros cursos son impartidos por profesionales experimentados que comparten su conocimiento y pasión por el arte de la cerámica.
                     </p>
                 </div>

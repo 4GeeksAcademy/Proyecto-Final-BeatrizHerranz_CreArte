@@ -1,46 +1,50 @@
 body, h1, h2, h3, p {
     font-family: 'Arial', sans-serif;
-    color: #6a4e23
+    color: #6a4e23; 
+    margin: 0; 
 }
 
 .container {
-    padding: 30px;
+    padding: 20px; 
 }
 
 .home-container {
     margin-top: 100px; 
+    padding: 0 15px; 
 }
 
-h1, h2, h3 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-h2 {
+.text-center {
     text-align: center;
+}
+
+.mt-5 {
+    margin-top: 5rem; 
 }
 
 h1.display-4 {
     font-weight: bold;
-    margin-bottom: 30px;
+    font-size: 2.8rem; 
+    margin-bottom: 20px; 
     text-align: center;
 }
 
-h2.text-center {
-    font-size: 3rem;
-    font-weight: bold;
+h2 {
+    font-size: 2.5rem; 
+    margin-bottom: 15px; 
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.8rem; 
+    margin-bottom: 15px;
     text-align: center;
 }
 
 p {
-    font-size: 3rem;
-    color: #6a4e23;
-}
-
-.text-danger {
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #d9534f;
+    font-size: 1.1rem; 
+    color: #6a4e23; 
+    margin-bottom: 15px; 
+    line-height: 1.6; 
 }
 
 .carousel-item img {
@@ -54,28 +58,21 @@ p {
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
+    margin-top: 40px; 
 }
 
 .info-crearte p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #6a4e23;
     text-align: center;
+    margin-bottom: 15px;
 }
 
 .info-crearte h2, .info-crearte h3 {
-    font-size: 1.8rem;
+    font-size: 1.6rem; 
     font-weight: bold;
-    text-align: center; 
-    margin-bottom: 20px; 
-}
-
-.mt-5 {
-    margin-top: 5rem;
-}
-
-.text-center {
     text-align: center;
+    margin-bottom: 15px;
 }
 
 .lead {

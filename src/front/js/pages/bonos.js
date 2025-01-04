@@ -6,21 +6,21 @@ const Bonos = () => {
   const bonos = [
     {
       id: 1,
-      nombre: "Bono Regalo 40€",
-      precio: "40€",
-      imagen: "https://via.placeholder.com/300",
+      nombre: "Bono Regalo 50€",
+      precio: "50€",
+      imagen: "https://amasarte.es/wp-content/uploads/2024/05/bono-regalo-50e.png",
     },
     {
       id: 2,
-      nombre: "Bono Regalo 50€",
-      precio: "50€",
-      imagen: "https://via.placeholder.com/300",
+      nombre: "Bono Regalo 60€",
+      precio: "60€",
+      imagen: "https://amasarte.es/wp-content/uploads/2024/05/bono-regalo-60e.png",
     },
     {
       id: 3,
-      nombre: "Bono Regalo 60€",
-      precio: "60€",
-      imagen: "https://via.placeholder.com/300",
+      nombre: "Bono Regalo 80€",
+      precio: "80€",
+      imagen: "https://amasarte.es/wp-content/uploads/2024/05/bono-regalo-80e.png",
     },
   ];
 
@@ -43,16 +43,13 @@ const Bonos = () => {
     <div className="container mt-5">
 
       <div className="mb-4">
-        <h1>
-        Regala experiencias con nuestros bonos regalo
-        </h1>
         <h2 className="text-center">¿Cómo funcionan los bonos regalo?</h2>
         <p>
           El bono se podrá canjear por cualquier curso. Se puede usar el bono para un curso de mayor importe pagando la diferencia.
         </p>
         <p>
-          Al comprar este bono regalo, recibirás un e-mail con el bono regalo en formato PDF adjunto, que podrás 
-          reenviar a la persona que desees. Este PDF incluirá un código personalizado para canjearlo, así como las instrucciones y los pasos a seguir.
+          Al realizar la compra, recibirás un e-mail con el bono regalo en formato PDF adjunto.
+          Este PDF incluirá un código personalizado para canjearlo, así como las instrucciones y los pasos a seguir.
         </p>
         
         <p className="text-danger">

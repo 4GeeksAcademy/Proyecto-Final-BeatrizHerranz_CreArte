@@ -1,7 +1,17 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { Context } from "../store/appContext";
 
 export const Card = ({ clase, onInscripcion }) => {
+    const { store, actions } = useContext(Context);
+
+    const handleFavorite = (clase) => {
+        if (!store?.favorites?.find(item => item.id === clase.id)) {
+            actions.addToFavorites(clase); // Agregar clase a favoritos
+        } else {
+            actions.removeFromFavorites(clase.id); // Eliminar clase de favoritos
+        }
+    };
+
     return (
         <div className="card">
             <img
@@ -18,6 +28,12 @@ export const Card = ({ clase, onInscripcion }) => {
                     onClick={() => onInscripcion(clase.id)}
                 >
                     ¡Me interesa!
+                </button>
+                <button
+                    className="btn btn-warning mt-2"
+                    onClick={() => handleFavorite(clase)}
+                >
+                    {store?.favorites?.find(item => item.id === clase.id) ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}
                 </button>
             </div>
         </div>

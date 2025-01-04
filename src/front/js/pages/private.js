@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function Private() {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
+    const [favorites, setFavorites] = useState([]);
     const [passwordData, setPasswordData] = useState({
         currentPassword: "",
         newPassword: "",
@@ -18,6 +19,7 @@ export default function Private() {
         }
 
         fetchUserData();
+        fetchFavorites();
     }, [navigate]);
 
     const fetchUserData = () => {
@@ -26,6 +28,23 @@ export default function Private() {
             email: "juan.perez@example.com",
         };
         setUserData(mockUser);
+    };
+
+    const fetchFavorites = () => {
+        const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        setFavorites(storedFavorites);
+    };
+
+    const handleAddToFavorites = (product) => {
+        const newFavorites = [...favorites, product];
+        setFavorites(newFavorites);
+        localStorage.setItem("favorites", JSON.stringify(newFavorites));
+    };
+
+    const handleRemoveFromFavorites = (id) => {
+        const newFavorites = favorites.filter(item => item.id !== id);
+        setFavorites(newFavorites);
+        localStorage.setItem("favorites", JSON.stringify(newFavorites));
     };
 
     const handleLogout = () => {
@@ -57,7 +76,7 @@ export default function Private() {
             alert("La nueva contraseña y su confirmación no coinciden");
             return;
         }
-        
+
         console.log("Contraseña actualizada:", { currentPassword, newPassword });
         alert("Contraseña actualizada con éxito");
         setPasswordData({ currentPassword: "", newPassword: "", confirmNewPassword: "" });
@@ -109,6 +128,30 @@ export default function Private() {
                                 onChange={handleInputChange}
                             />
                         </div>
+
+                        {/* Mostrar favoritos */}
+                        <h3>Favoritos</h3>
+                        {favorites.length === 0 ? (
+                            <p>No tienes productos favoritos.</p>
+                        ) : (
+                            <ul>
+                                {favorites.map(favorite => (
+                                    <li key={favorite.id}>
+                                        {favorite.name}
+                                        <button onClick={() => handleRemoveFromFavorites(favorite.id)}>
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        <button
+                            type="button"
+                            className="btn btn-success"
+                            onClick={() => handleAddToFavorites({ id: 3, name: "Producto 3" })}
+                        >
+                            Añadir a Favoritos
+                        </button>
                         <button type="submit" className="btn btn-primary">Guardar Cambios</button>
                     </form>
                     <hr />

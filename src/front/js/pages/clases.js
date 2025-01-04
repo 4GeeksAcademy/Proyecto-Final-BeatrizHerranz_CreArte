@@ -47,9 +47,17 @@ const Clases = () => {
     }
   };
 
+  const handleFavorite = (course) => {
+    const isFavorite = store.favorites.some(fav => fav.id === course.id);
+    if (isFavorite) {
+      actions.removeFavorite(course.id);
+    } else {
+      actions.addFavorite(course);
+    }
+  };
+
   return (
     <div className="container mt-5">
-
       <h2 className="text-center">Experimenta con la cerámica</h2>
       <p className="intro-text">
         Con nuestras clases mensuales de cerámica y alfarería, aprenderás técnicas específicas y descubrirás todas las posibilidades que te ofrece para hacer tus propias piezas.
@@ -62,7 +70,11 @@ const Clases = () => {
       <div className="row">
         {clases.map((clase) => (
           <div className="col-md-4 col-sm-6 col-12 mb-4" key={clase.id}>
-            <Card clase={clase} onInscripcion={handleInscripcion} />
+            <Card 
+              clase={clase} 
+              onInscripcion={handleInscripcion} 
+              onFavorite={() => handleFavorite(clase)} // Añadir la lógica de favoritos aquí
+            />
           </div>
         ))}
       </div>

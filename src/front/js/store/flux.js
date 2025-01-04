@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 { title: "FIRST", background: "white", initial: "white" },
                 { title: "SECOND", background: "white", initial: "white" }
             ],
+            favorites: [] // Estado de favoritos
         },
         actions: {
             getMessage: async () => {
@@ -25,10 +26,21 @@ const getState = ({ getStore, getActions, setStore }) => {
                     return elm;
                 });
                 setStore({ demo: demo });
+            },
+            addFavorite: (course) => {
+                const store = getStore();
+                setStore({
+                    favorites: [...store.favorites, course],
+                });
+            },
+            removeFavorite: (courseId) => {
+                const store = getStore();
+                setStore({
+                    favorites: store.favorites.filter(course => course.id !== courseId),
+                });
             }
         }
     };
 };
 
-// Añadir esta línea para exportar el `getState`
 export default getState;

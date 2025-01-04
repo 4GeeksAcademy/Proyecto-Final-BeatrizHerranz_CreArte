@@ -2,6 +2,10 @@ from flask import Blueprint, request, jsonify
 from api.models import db, User, UserProfile
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
+import os
+import stripe
+
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 api = Blueprint('api', __name__)
 CORS(api)
@@ -101,3 +105,27 @@ def delete_user(id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({'message': 'Usuario eliminado con éxito'}), 200
+
+# Crear PaymentIntent para procesar el pago
+@api.route('/create-payment-intent', methods=['POST'])
+@jwt_required()
+def create_payment_intent():
+    try:
+        data = request.get_json()
+        amount = data.get('amount')  # Monto en centavos (por ejemplo, 1099 para 10.99 USD)
+        currency = data.get('currency', 'usd')  # Moneda predeterminada 'usd'
+
+        # Crear un PaymentIntent
+        intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency=currency,
+            description="Pago por clases de cerámica",
+        )
+
+        # Devuelve el client secret del PaymentIntent
+        return jsonify({
+            'clientSecret': intent.client_secret
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

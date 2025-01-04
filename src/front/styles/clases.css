@@ -42,15 +42,15 @@ p {
 }
 
 .col-md-4 {
-    flex: 1 1 30%; /* Esto asegura que cada columna ocupe aproximadamente un 30% del contenedor */
-    max-width: 30%; /* Esto garantiza que no excedan el 30% del contenedor */
+    flex: 1 1 30%; 
+    max-width: 30%; 
 }
 
 .row {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* Espacio entre los elementos */
-    flex-wrap: wrap; /* Esto permite que los elementos se ajusten si no caben */
+    gap: 20px; 
+    flex-wrap: wrap; 
 }
 
 .card {

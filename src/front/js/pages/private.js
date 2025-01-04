@@ -129,7 +129,6 @@ export default function Private() {
                             />
                         </div>
 
-                        {/* Mostrar favoritos */}
                         <h3>Favoritos</h3>
                         {favorites.length === 0 ? (
                             <p>No tienes productos favoritos.</p>
@@ -155,6 +154,7 @@ export default function Private() {
                         <button type="submit" className="btn btn-primary">Guardar Cambios</button>
                     </form>
                     <hr />
+
                     <h3>Cambiar Contraseña</h3>
                     <form onSubmit={handlePasswordSubmit}>
                         <div className="mb-3">

@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+import '../../styles/card.css';
 
 export const Card = ({ clase, onInscripcion }) => {
     const { store, actions } = useContext(Context);
 
     const handleFavorite = (clase) => {
         if (!store?.favorites?.find(item => item.id === clase.id)) {
-            actions.addToFavorites(clase); // Agregar clase a favoritos
+            actions.addToFavorites(clase); 
         } else {
-            actions.removeFromFavorites(clase.id); // Eliminar clase de favoritos
+            actions.removeFromFavorites(clase.id); 
         }
     };
 

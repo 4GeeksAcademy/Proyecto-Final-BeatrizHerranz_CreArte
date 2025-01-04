@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import 'font-awesome/css/font-awesome.min.css';
 import '../../styles/navbar.css';
 
 export const Navbar = () => {
@@ -30,9 +31,8 @@ export const Navbar = () => {
             )}
           </ul>
 
-          {/* Botón del carrito */}
-          <Link to="/carrito" className="btn btn-outline-info ms-2">
-            🛒 Carrito
+          <Link to="/carrito" className="btn btn-brown ms-2">
+            <i className="fas fa-shopping-cart"></i> Carrito
           </Link>
 
           {!isAuthenticated ? (
@@ -44,7 +44,7 @@ export const Navbar = () => {
             <button
               onClick={() => {
                 sessionStorage.removeItem("token");
-                window.location.reload(); // Reload to hide "Mi Perfil" and other authenticated content
+                window.location.reload(); 
               }}
               className="btn btn-outline-danger ms-2"
             >

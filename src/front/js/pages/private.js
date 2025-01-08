@@ -107,99 +107,109 @@ export default function Private() {
                     <h3>Datos del Usuario</h3>
                     <form onSubmit={handleEdit}>
                         <div className="mb-3">
-                            <label htmlFor="name" className="form-label">Nombre</label>
+                            <label htmlFor="name" className="form-label">
+                                Nombre
+                            </label>
                             <input
                                 type="text"
+                                className="form-control"
                                 id="name"
                                 name="name"
-                                className="form-control"
                                 value={userData.name}
                                 onChange={handleInputChange}
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="email" className="form-label">Correo Electrónico</label>
+                            <label htmlFor="email" className="form-label">
+                                Correo Electrónico
+                            </label>
                             <input
                                 type="email"
+                                className="form-control"
                                 id="email"
                                 name="email"
-                                className="form-control"
                                 value={userData.email}
                                 onChange={handleInputChange}
                             />
                         </div>
-
-                        <h3>Favoritos</h3>
-                        {favorites.length === 0 ? (
-                            <p>No tienes productos favoritos.</p>
-                        ) : (
-                            <ul>
-                                {favorites.map(favorite => (
-                                    <li key={favorite.id}>
-                                        {favorite.name}
-                                        <button onClick={() => handleRemoveFromFavorites(favorite.id)}>
-                                            Eliminar
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={() => handleAddToFavorites({ id: 3, name: "Producto 3" })}
-                        >
-                            Añadir a Favoritos
+                        <button type="submit" className="btn btn-primary">
+                            Guardar Cambios
                         </button>
-                        <button type="submit" className="btn btn-primary">Guardar Cambios</button>
                     </form>
-                    <hr />
 
-                    <h3>Cambiar Contraseña</h3>
+                    <h3 className="mt-4">Favoritos</h3>
+                    <ul>
+                        {favorites.length > 0 ? (
+                            favorites.map((item) => (
+                                <li key={item.id}>
+                                    <span>{item.name}</span>
+                                    <button
+                                        className="btn btn-danger ms-2"
+                                        onClick={() => handleRemoveFromFavorites(item.id)}
+                                    >
+                                        Eliminar
+                                    </button>
+                                </li>
+                            ))
+                        ) : (
+                            <p>No tienes productos favoritos.</p>
+                        )}
+                    </ul>
+
+                    <h3 className="mt-4">Cambiar Contraseña</h3>
                     <form onSubmit={handlePasswordSubmit}>
                         <div className="mb-3">
-                            <label htmlFor="currentPassword" className="form-label">Contraseña Actual</label>
+                            <label htmlFor="currentPassword" className="form-label">
+                                Contraseña Actual
+                            </label>
                             <input
                                 type="password"
+                                className="form-control"
                                 id="currentPassword"
                                 name="currentPassword"
-                                className="form-control"
                                 value={passwordData.currentPassword}
                                 onChange={handlePasswordChange}
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="newPassword" className="form-label">Nueva Contraseña</label>
+                            <label htmlFor="newPassword" className="form-label">
+                                Nueva Contraseña
+                            </label>
                             <input
                                 type="password"
+                                className="form-control"
                                 id="newPassword"
                                 name="newPassword"
-                                className="form-control"
                                 value={passwordData.newPassword}
                                 onChange={handlePasswordChange}
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="confirmNewPassword" className="form-label">Confirmar Nueva Contraseña</label>
+                            <label htmlFor="confirmNewPassword" className="form-label">
+                                Confirmar Nueva Contraseña
+                            </label>
                             <input
                                 type="password"
+                                className="form-control"
                                 id="confirmNewPassword"
                                 name="confirmNewPassword"
-                                className="form-control"
                                 value={passwordData.confirmNewPassword}
                                 onChange={handlePasswordChange}
                             />
                         </div>
-                        <button type="submit" className="btn btn-primary">Actualizar Contraseña</button>
+                        <button type="submit" className="btn btn-primary">
+                            Cambiar Contraseña
+                        </button>
                     </form>
-                    <hr />
-                    <button onClick={handleDeleteProfile} className="btn btn-danger">Eliminar Perfil</button>
+
+                    <h3 className="mt-4">Eliminar Perfil</h3>
+                    <button className="btn btn-danger" onClick={handleDeleteProfile}>
+                        Eliminar mi cuenta
+                    </button>
                 </div>
             ) : (
                 <p>Cargando datos del usuario...</p>
             )}
-            <hr />
-            <button onClick={handleLogout} className="btn btn-secondary">Cerrar Sesión</button>
         </div>
     );
 }

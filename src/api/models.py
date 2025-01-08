@@ -51,7 +51,24 @@ class UserProfile(db.Model):
         }
 
 # Modelo de Cursos
-class Product(db.Model):
+class Clases(db.Model):
+    __tablename__ = "clases"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    price = db.Column(db.Float, nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "price": self.price,
+        }
+
+# Modelo de Bonos
+class Bonos(db.Model):
     __tablename__ = "product"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -66,3 +83,4 @@ class Product(db.Model):
             "description": self.description,
             "price": self.price,
         }
+

@@ -7,9 +7,7 @@ export const Card = ({ clase, onInscripcion }) => {
 
     const handleFavorite = (clase) => {
         if (!store?.favorites?.find(item => item.id === clase.id)) {
-            actions.addToFavorites(clase); 
-        } else {
-            actions.removeFromFavorites(clase.id); 
+            actions.addBonoToFavorites(clase);  
         }
     };
 
@@ -28,13 +26,13 @@ export const Card = ({ clase, onInscripcion }) => {
                     className="btn btn-success"
                     onClick={() => onInscripcion(clase.id)}
                 >
-                    ¡Me interesa!
+                    Añadir al Carrito
                 </button>
                 <button
                     className="btn btn-warning mt-2"
-                    onClick={() => handleFavorite(clase)}
+                    onClick={() => handleFavorite(clase)}  
                 >
-                    {store?.favorites?.find(item => item.id === clase.id) ? 'Quitar de Favoritos' : 'Añadir a Favoritos'}
+                    {store?.favorites?.find(item => item.id === clase.id) ? 'Ya está en Favoritos' : 'Añadir a Favoritos'}
                 </button>
             </div>
         </div>

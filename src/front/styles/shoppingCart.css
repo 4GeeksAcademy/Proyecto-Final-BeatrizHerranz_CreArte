@@ -1,0 +1,22 @@
+.container {
+    margin-top: 20px;
+}
+
+.table {
+    margin: auto;
+    width: 80%;
+    border: 1px solid #ddd;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    text-align: center;
+}
+
+.total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+}

@@ -15,6 +15,7 @@ import injectContext from "./store/appContext";
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
 import Bonos from "./pages/bonos";
+import ShoppingCart from "./pages/shoppingCart";
 
 //create your first component
 const Layout = () => {
@@ -35,6 +36,7 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<Clases />} path="/clases" />
                         <Route element={<Bonos />} path="/bonos" />
+                        <Route element={<ShoppingCart />} path="/carrito" />
                         <Route element={<Private />} path="/private" />
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<Login />} path="/login" />

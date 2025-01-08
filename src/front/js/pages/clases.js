@@ -39,20 +39,26 @@ const Clases = () => {
       return;
     }
 
-    if (!store?.cartItems?.find(item => item.id === id)) {
-      actions.addCourseToCart(claseSeleccionada);
-      navigate("/cart");
+    // Verificar si el producto ya está en el carrito
+    const itemInCart = store.cart.find(item => item.id === id);
+
+    if (itemInCart) {
+      // Si ya está en el carrito, se aumenta la cantidad
+      actions.addToCart(claseSeleccionada);
     } else {
-      alert("Esta clase ya está en tu carrito.");
+      // Si no está en el carrito, se añade por primera vez
+      actions.addToCart(claseSeleccionada);
+      navigate("/cart");  // Redirige al carrito después de añadir
     }
   };
 
+  // Función para manejar los favoritos
   const handleFavorite = (course) => {
     const isFavorite = store.favorites.some(fav => fav.id === course.id);
     if (isFavorite) {
-      actions.removeFavorite(course.id);
+      actions.removeFromFavorites(course.id);
     } else {
-      actions.addFavorite(course);
+      actions.addToFavorites(course);
     }
   };
 
@@ -70,10 +76,10 @@ const Clases = () => {
       <div className="row">
         {clases.map((clase) => (
           <div className="col-md-4 col-sm-6 col-12 mb-4" key={clase.id}>
-            <Card 
-              clase={clase} 
-              onInscripcion={handleInscripcion} 
-              onFavorite={() => handleFavorite(clase)} 
+            <Card
+              clase={clase}
+              onInscripcion={handleInscripcion}  // Pasa la función de inscripción
+              onFavorite={() => handleFavorite(clase)}  // Pasa la función para manejar favoritos
             />
           </div>
         ))}

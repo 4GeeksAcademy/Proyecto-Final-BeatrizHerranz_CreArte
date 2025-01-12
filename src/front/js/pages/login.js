@@ -32,7 +32,7 @@ export default function Login() {
         setErrorMessage("");
         try {
             const response = await axios.post(
-                'https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/login',
+                `${process.env.BACKEND_URL}`, // Corregido
                 loginData,
                 {
                     headers: { "Content-Type": "application/json" },

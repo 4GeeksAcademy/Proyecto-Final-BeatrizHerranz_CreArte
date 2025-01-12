@@ -12,7 +12,7 @@ const getState = ({ getStore, setStore }) => {
             registerUser: async (userData) => {
                 try {
                     setStore({ loading: true, error: null });
-                    const response = await fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/registrar', {
+                    const response = await fetch(`${process.env.BACKEND_URL}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(userData)
@@ -32,7 +32,7 @@ const getState = ({ getStore, setStore }) => {
             loginUser: async (credentials) => {
                 try {
                     setStore({ loading: true, error: null });
-                    const response = await fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/login', {
+                    const response = await fetch(`${process.env.BACKEND_URL}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(credentials)
@@ -66,7 +66,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ cart: updatedCart });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/cart', {
+                        await fetch(`${process.env.BACKEND_URL}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ cart: updatedCart });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/cart', {
+                        await fetch(`${process.env.BACKEND_URL}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ cart: updatedCart });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/cart', {
+                        await fetch(`${process.env.BACKEND_URL}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ favorites: updatedFavorites });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/favorites', {
+                        await fetch(`${process.env.BACKEND_URL}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -160,12 +160,12 @@ const getState = ({ getStore, setStore }) => {
                     try {
                         setStore({ loading: true });
                         const [cartResponse, favoritesResponse] = await Promise.all([
-                            fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/cart', {
+                            fetch(`${process.env.BACKEND_URL}`, {
                                 headers: {
                                     'Authorization': `Bearer ${store.user.token}`
                                 }
                             }),
-                            fetch('https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/favorites', {
+                            fetch(`${process.env.BACKEND_URL}`, {
                                 headers: {
                                     'Authorization': `Bearer ${store.user.token}`
                                 }

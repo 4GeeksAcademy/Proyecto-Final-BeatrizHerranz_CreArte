@@ -28,12 +28,7 @@ export const Card = ({ clase, onInscripcion }) => {
                 >
                     Añadir al Carrito
                 </button>
-                <button
-                    className="btn btn-warning mt-2"
-                    onClick={() => handleFavorite(clase)}  
-                >
-                    {store?.favorites?.find(item => item.id === clase.id) ? 'Ya está en Favoritos' : 'Añadir a Favoritos'}
-                </button>
+                
             </div>
         </div>
     );

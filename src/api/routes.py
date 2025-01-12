@@ -1,131 +1,170 @@
 from flask import Blueprint, request, jsonify
-from api.models import db, User, UserProfile
+from api.models import db, User, UserProfile, Product, Order, OrderItem
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
-import os
-import stripe
 
-stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+import stripe
+import os
 
 api = Blueprint('api', __name__)
 CORS(api)
-
-# Obtener todos los usuarios
-@api.route('/usuarios', methods=['GET'])
-@jwt_required()
-def get_all_users():
-    users = User.query.all()
-    return jsonify([user.serialize() for user in users]), 200
-
-# Registro de usuario
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+# Rutas de Autenticación
 @api.route('/registrar', methods=['POST'])
 def create_user():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-
-    if User.query.filter_by(email=email).first():
-        return jsonify({'error': 'El usuario ya existe'}), 400
-
-    new_user = User(email=email)
-    new_user.set_password(password)
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify(new_user.serialize()), 201
-
-# Login de usuario
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+        if not email or not password:
+            return jsonify({'error': 'Email y contraseña son requeridos'}), 400
+        if User.query.filter_by(email=email).first():
+            return jsonify({'error': 'El usuario ya existe'}), 400
+        new_user = User(email=email)
+        new_user.set_password(password)
+        # Crear perfil vacío
+        profile = UserProfile(user=new_user)
+        db.session.add(new_user)
+        db.session.add(profile)
+        db.session.commit()
+        return jsonify(new_user.serialize()), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 @api.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-
-    user = User.query.filter_by(email=email).first()
-    if user and user.check_password(password):
-        token = create_access_token(identity=user.email)
-        return jsonify({'access_token': token}), 200
-    return jsonify({'error': 'Credenciales inválidas'}), 401
-
-# Ruta privada
-@api.route('/private', methods=['GET'])
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+        if not email or not password:
+            return jsonify({'error': 'Email y contraseña son requeridos'}), 400
+        user = User.query.filter_by(email=email).first()
+        if user and user.check_password(password):
+            token = create_access_token(identity=user.id)
+            return jsonify({
+                'access_token': token,
+                'user': user.serialize()
+            }), 200
+        return jsonify({'error': 'Credenciales inválidas'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+# Rutas de Usuario
+@api.route('/usuarios/perfil', methods=['GET'])
 @jwt_required()
-def private():
-    current_user = get_jwt_identity()
-    return jsonify({'message': f'Bienvenido, {current_user}'}), 200
-
-# Editar perfil
-@api.route('/usuarios/<int:id>', methods=['PUT'])
+def get_profile():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+        if not user:
+            return jsonify({'error': 'Usuario no encontrado'}), 404
+        return jsonify(user.serialize()), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+@api.route('/usuarios/perfil', methods=['PUT'])
 @jwt_required()
-def edit_user(id):
-    current_user_email = get_jwt_identity()
-    user = UserProfile.query.get(id)
-
-    if not user or user.email != current_user_email:
-        return jsonify({'error': 'No autorizado o usuario no encontrado'}), 403
-
-    data = request.get_json()
-    user.name = data.get('name', user.name)
-    new_email = data.get('email')
-    
-    if new_email and User.query.filter_by(email=new_email).first():
-        return jsonify({'error': 'El correo ya está en uso'}), 400
-    
-    user.email = new_email or user.email
-    db.session.commit()
-    return jsonify(user.serialize()), 200
-
-# Cambiar contraseña
-@api.route('/usuarios/<int:id>/cambiar-password', methods=['PUT'])
+def update_profile():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+        if not user:
+            return jsonify({'error': 'Usuario no encontrado'}), 404
+        data = request.get_json()
+        profile = user.profile or UserProfile(user=user)
+        if 'first_name' in data:
+            profile.first_name = data['first_name']
+        if 'last_name' in data:
+            profile.last_name = data['last_name']
+        if 'address' in data:
+            profile.address = data['address']
+        if 'phone' in data:
+            profile.phone = data['phone']
+        db.session.commit()
+        return jsonify(user.serialize()), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+# Rutas de Productos
+@api.route('/productos', methods=['GET'])
+def get_products():
+    try:
+        products = Product.query.all()
+        return jsonify([product.serialize() for product in products]), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+@api.route('/productos/<int:id>', methods=['GET'])
+def get_product(id):
+    try:
+        product = Product.query.get(id)
+        if not product:
+            return jsonify({'error': 'Producto no encontrado'}), 404
+        return jsonify(product.serialize()), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+# Rutas de Pedidos
+@api.route('/pedidos', methods=['POST'])
 @jwt_required()
-def change_password(id):
-    current_user_email = get_jwt_identity()
-    user = User.query.get(id)
-
-    if not user or user.email != current_user_email:
-        return jsonify({'error': 'No autorizado o usuario no encontrado'}), 403
-
-    data = request.get_json()
-    if not user.check_password(data.get('current_password')):
-        return jsonify({'error': 'Contraseña actual incorrecta'}), 401
-
-    user.set_password(data.get('new_password'))
-    db.session.commit()
-    return jsonify({'message': 'Contraseña actualizada con éxito'}), 200
-
-# Eliminar perfil
-@api.route('/usuarios/<int:id>', methods=['DELETE'])
-@jwt_required()
-def delete_user(id):
-    current_user_email = get_jwt_identity()
-    user = User.query.get(id)
-
-    if not user or user.email != current_user_email:
-        return jsonify({'error': 'No autorizado o usuario no encontrado'}), 403
-
-    db.session.delete(user)
-    db.session.commit()
-    return jsonify({'message': 'Usuario eliminado con éxito'}), 200
-
-# Crear PaymentIntent para procesar el pago
+def create_order():
+    try:
+        current_user_id = get_jwt_identity()
+        data = request.get_json()
+        # Validar datos del pedido
+        if not data.get('items'):
+            return jsonify({'error': 'El pedido debe contener items'}), 400
+        # Calcular total
+        total_amount = 0
+        order_items = []
+        for item in data['items']:
+            product = Product.query.get(item['product_id'])
+            if not product:
+                return jsonify({'error': f'Producto {item["product_id"]} no encontrado'}), 400
+            if product.stock < item['quantity']:
+                return jsonify({'error': f'Stock insuficiente para {product.name}'}), 400
+            total_amount += product.price * item['quantity']
+            order_items.append({
+                'product': product,
+                'quantity': item['quantity'],
+                'price': product.price
+            })
+        # Crear orden
+        order = Order(
+            user_id=current_user_id,
+            total_amount=total_amount
+        )
+        db.session.add(order)
+        # Crear items de la orden y actualizar stock
+        for item in order_items:
+            order_item = OrderItem(
+                order=order,
+                product=item['product'],
+                quantity=item['quantity'],
+                price=item['price']
+            )
+            db.session.add(order_item)
+            item['product'].stock -= item['quantity']
+        db.session.commit()
+        return jsonify(order.serialize()), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+# Ruta de Pago
 @api.route('/create-payment-intent', methods=['POST'])
 @jwt_required()
 def create_payment_intent():
     try:
         data = request.get_json()
-        amount = data.get('amount')  
-        currency = data.get('currency', 'eur') 
-
-        # Crear un PaymentIntent
+        if not data.get('order_id'):
+            return jsonify({'error': 'ID de orden requerido'}), 400
+        order = Order.query.get(data['order_id'])
+        if not order:
+            return jsonify({'error': 'Orden no encontrada'}), 404
         intent = stripe.PaymentIntent.create(
-            amount=amount,
-            currency=currency,
-            description="Pago por clases de cerámica",
+            amount=int(order.total_amount * 100),  # Convertir a centavos
+            currency='eur',
+            metadata={'order_id': order.id}
         )
-
-        # Devuelve el client secret del PaymentIntent
         return jsonify({
             'clientSecret': intent.client_secret
         })
-
     except Exception as e:
         return jsonify({'error': str(e)}), 400

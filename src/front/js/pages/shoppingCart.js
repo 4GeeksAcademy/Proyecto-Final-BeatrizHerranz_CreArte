@@ -6,66 +6,88 @@ import "../../styles/shoppingCart.css";
 const ShoppingCart = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-
-  // Elimina un producto del carrito
-  const handleRemoveFromCart = (id) => {
-    actions.removeFromCart(id);
-  };
-
-  // Redirige al checkout
-  const handleCheckout = () => {
-    if (store.cart.length === 0) {
-      alert("Tu carrito está vacío.");
-    } else {
-      navigate("/checkout"); 
-    }
-  };
-
   // Calcula el total del carrito
-  const total = store.cart.reduce(
-    (acc, item) => acc + parseFloat(item.precio.replace("€", "")) * (item.cantidad || 1),
-    0
-  );
-
+  const total = store.cart.reduce((acc, item) => {
+    const precio = parseFloat(item.precio.replace('€', '').trim());
+    return acc + (precio * (item.cantidad || 1));
+  }, 0);
   return (
     <div className="container mt-5">
-      <h2 className="text-center">Carrito de Compras</h2>
-
+      <h2 className="text-center mb-4">Carrito de Compras</h2>
       {store.cart.length === 0 ? (
-        <p className="text-center">Tu carrito está vacío.</p>
+        <div className="text-center">
+          <p>Tu carrito está vacío.</p>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate('/clases')}
+          >
+            Ver Clases Disponibles
+          </button>
+        </div>
       ) : (
-        <div className="row">
-          {store.cart.map((item) => (
-            <div className="col-12 mb-3" key={item.id}>
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">{item.nombre}</h5>
-                  <p className="card-text">{item.descripcion}</p>
-                  <p className="text-primary">Precio: {item.precio}</p>
-                  <p>Cantidad: {item.cantidad || 1}</p>
+        <>
+          <div className="row">
+            {store.cart.map((item) => (
+              <div className="col-12 mb-3" key={item.id}>
+                <div className="card">
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h5 className="card-title mb-0">{item.nombre}</h5>
+                      <div className="quantity-controls">
+                        <input
+                          type="number"
+                          min="1"
+                          value={item.cantidad || 1}
+                          onChange={(e) => actions.updateCartQuantity(item.id, e.target.value)}
+                          className="form-control d-inline-block mx-2"
+                          style={{ width: "80px" }}
+                        />
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => actions.removeFromCart(item.id)}
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <p className="card-text">{item.descripcion}</p>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <p className="text-primary mb-0">
+                        Precio unitario: {item.precio}
+                      </p>
+                      <p className="text-success mb-0">
+                        Subtotal: {(parseFloat(item.precio) * (item.cantidad || 1)).toFixed(2)}€
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="card mt-4">
+            <div className="card-body">
+              <div className="d-flex justify-content-between align-items-center">
+                <h4 className="mb-0">Total: {total.toFixed(2)}€</h4>
+                <div>
                   <button
-                    className="btn btn-danger"
-                    onClick={() => handleRemoveFromCart(item.id)}
+                    className="btn btn-secondary me-2"
+                    onClick={() => navigate('/clases')}
                   >
-                    Eliminar del carrito
+                    Seguir Comprando
+                  </button>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => navigate('/checkout')}
+                  >
+                    Proceder al Pago
                   </button>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      )}
-
-      {store.cart.length > 0 && (
-        <div className="mt-4">
-          <h4>Total: {total.toFixed(2)} €</h4>
-          <button className="btn btn-success" onClick={handleCheckout}>
-            Proceder al Pago
-          </button>
-        </div>
+          </div>
+        </>
       )}
     </div>
-  );
-};
-
-export default ShoppingCart;
+  )
+}
+export default ShoppingCart

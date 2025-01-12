@@ -17,7 +17,7 @@ export default function Private() {
         const checkAuth = async () => {
             try {
                 const response = await axios.get(
-                    'https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/private',
+                    `${process.env.BACKEND_URL}`,
                     {
                         headers: {
                             'Authorization': `Bearer ${token}`

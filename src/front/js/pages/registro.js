@@ -28,7 +28,7 @@ export default function Registro() {
         setErrorMessage("");
         try {
             const response = await axios.post(
-                'https://refactored-palm-tree-r47qgpxwrxp7cv5x-3001.app.github.dev/api/registrar',
+                `${process.env.BACKEND_URL}`,
                 signupData,
                 {
                     headers: {

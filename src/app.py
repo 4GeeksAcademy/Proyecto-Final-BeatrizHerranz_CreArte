@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
-from flask_cors import CORS  # Importa CORS
+from flask_cors import CORS  
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
@@ -15,11 +15,11 @@ ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Cambia esto si es necesario
+app.config["JWT_SECRET_KEY"] = "super-secret" 
 jwt = JWTManager(app)
 
 # Habilitar CORS para permitir solicitudes desde tu frontend React
-CORS(app, origins="https://super-fiesta-v6p9vq5wg9r63xgj4-3000.app.github.dev", methods=["GET", "POST", "PUT", "DELETE"], allow_headers=["Content-Type", "Authorization"])
+CORS(app, origins=["https://musical-happiness-q7vjqpx69jvwc47x9-3000.app.github.dev", "https://musical-happiness-q7vjqpx69jvwc47x9-3001.app.github.dev"], methods=["GET", "POST", "PUT", "DELETE"], allow_headers=["Content-Type", "Authorization"])
 
 # Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")

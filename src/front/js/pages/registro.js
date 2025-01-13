@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export default function Registro() {
+
     // Estados para el formulario
     const [signupData, setSignUpData] = useState({
         email: "",
         password: ""
     });
+
     // Estados para UI
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
     // Manejar cambios en los inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,6 +24,7 @@ export default function Registro() {
         // Limpiar mensaje de error cuando el usuario empiece a escribir
         if (errorMessage) setErrorMessage("");
     };
+
     // Manejar envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +32,7 @@ export default function Registro() {
         setErrorMessage("");
         try {
             const response = await axios.post(
-                `${process.env.BACKEND_URL}`,
+                `${process.env.BACKEND_URL}/api/registrar`,
                 signupData,
                 {
                     headers: {
@@ -42,7 +46,7 @@ export default function Registro() {
                 return;
             }
             console.log("Usuario registrado exitosamente:", response.data);
-            // Opcional: Guardar el token si tu backend lo envía
+           
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
             }

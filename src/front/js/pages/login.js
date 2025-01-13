@@ -32,7 +32,7 @@ export default function Login() {
         setErrorMessage("");
         try {
             const response = await axios.post(
-                `${process.env.BACKEND_URL}`, // Corregido
+                `${process.env.BACKEND_URL}/api/login`, 
                 loginData,
                 {
                     headers: { "Content-Type": "application/json" },

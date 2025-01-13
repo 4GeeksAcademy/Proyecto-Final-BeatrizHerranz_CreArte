@@ -17,7 +17,7 @@ export default function Private() {
         const checkAuth = async () => {
             try {
                 const response = await axios.get(
-                    `${process.env.BACKEND_URL}`,
+                    `${process.env.BACKEND_URL}/api/private`,
                     {
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -50,6 +50,7 @@ export default function Private() {
     return (
         <div className="container mt-5">
             <div className="row">
+
                 {/* Información del Usuario */}
                 <div className="col-md-8 mb-4">
                     <div className="card">
@@ -79,6 +80,7 @@ export default function Private() {
                         </div>
                     </div>
                 </div>
+
                 {/* Favoritos */}
                 <div className="col-md-4 mb-4">
                     <div className="card">
@@ -93,21 +95,16 @@ export default function Private() {
                                             <div className="d-flex w-100 justify-content-between align-items-center">
                                                 <div>
                                                     <h6 className="mb-1">{item.nombre}</h6>
-                                                    <small className="text-muted">{item.precio}€</small>
+                                                    <small className="text-muted">{item.precio}</small>
                                                 </div>
                                                 <div>
                                                     <button
                                                         className="btn btn-sm btn-outline-primary me-2"
                                                         onClick={() => actions.addToCart(item)}
                                                     >
-                                                        :carrito_de_compras:
+                                                        :<i className="fas fa-shopping-cart"></i>:
                                                     </button>
-                                                    <button
-                                                        className="btn btn-sm btn-outline-danger"
-                                                        onClick={() => actions.removeFromFavorites(item.id)}
-                                                    >
-                                                        :x:
-                                                    </button>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -117,7 +114,8 @@ export default function Private() {
                         </div>
                     </div>
                 </div>
-                {/* Historial de Compras (si lo necesitas) */}
+
+                {/* Historial de Compras */}
                 <div className="col-12">
                     <div className="card">
                         <div className="card-body">
@@ -147,7 +145,7 @@ export default function Private() {
                                     <div className="mt-3">
                                         <button
                                             className="btn btn-success"
-                                            onClick={() => navigate('/cart')}
+                                            onClick={() => navigate('/carrito')}
                                         >
                                             Ir al Carrito
                                         </button>

@@ -8,11 +8,12 @@ const getState = ({ getStore, setStore }) => {
             loading: false
         },
         actions: {
+
             // Registro de usuario
             registerUser: async (userData) => {
                 try {
                     setStore({ loading: true, error: null });
-                    const response = await fetch(`${process.env.BACKEND_URL}`, {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/registrar`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(userData)
@@ -28,11 +29,12 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ loading: false });
                 }
             },
+
             // Login de usuario
             loginUser: async (credentials) => {
                 try {
                     setStore({ loading: true, error: null });
-                    const response = await fetch(`${process.env.BACKEND_URL}`, {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/login`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(credentials)
@@ -48,6 +50,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ loading: false });
                 }
             },
+
             // Añadir al carrito
             addToCart: async (item) => {
                 const store = getStore();
@@ -66,7 +69,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ cart: updatedCart });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch(`${process.env.BACKEND_URL}`, {
+                        await fetch(`${process.env.BACKEND_URL}/api/cart`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -79,6 +82,7 @@ const getState = ({ getStore, setStore }) => {
                     console.error('Error al actualizar carrito:', error);
                 }
             },
+
             // Actualizar cantidad en carrito
             updateCartQuantity: async (itemId, newQuantity) => {
                 const store = getStore();
@@ -92,7 +96,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ cart: updatedCart });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch(`${process.env.BACKEND_URL}`, {
+                        await fetch(`${process.env.BACKEND_URL}/api/cart`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -105,6 +109,7 @@ const getState = ({ getStore, setStore }) => {
                     console.error('Error al actualizar cantidad:', error);
                 }
             },
+
             // Eliminar del carrito
             removeFromCart: async (itemId) => {
                 const store = getStore();
@@ -113,7 +118,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ cart: updatedCart });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch(`${process.env.BACKEND_URL}`, {
+                        await fetch(`${process.env.BACKEND_URL}/api/cart`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -126,6 +131,7 @@ const getState = ({ getStore, setStore }) => {
                     console.error('Error al eliminar del carrito:', error);
                 }
             },
+
             // Toggle favoritos (añadir/quitar)
             toggleFavorite: async (item) => {
                 const store = getStore();
@@ -140,7 +146,7 @@ const getState = ({ getStore, setStore }) => {
                     setStore({ favorites: updatedFavorites });
                     // Persistir en backend si hay usuario
                     if (store.user?.token) {
-                        await fetch(`${process.env.BACKEND_URL}`, {
+                        await fetch(`${process.env.BACKEND_URL}/api/favorites`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -153,6 +159,7 @@ const getState = ({ getStore, setStore }) => {
                     console.error('Error al actualizar favoritos:', error);
                 }
             },
+            
             // Cargar datos iniciales del usuario
             loadUserData: async () => {
                 const store = getStore();
@@ -160,12 +167,12 @@ const getState = ({ getStore, setStore }) => {
                     try {
                         setStore({ loading: true });
                         const [cartResponse, favoritesResponse] = await Promise.all([
-                            fetch(`${process.env.BACKEND_URL}`, {
+                            fetch(`${process.env.BACKEND_URL}api/cart`, {
                                 headers: {
                                     'Authorization': `Bearer ${store.user.token}`
                                 }
                             }),
-                            fetch(`${process.env.BACKEND_URL}`, {
+                            fetch(`${process.env.BACKEND_URL}/api/favorites`, {
                                 headers: {
                                     'Authorization': `Bearer ${store.user.token}`
                                 }

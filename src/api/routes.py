@@ -9,6 +9,7 @@ import os
 api = Blueprint('api', __name__)
 CORS(api)
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
 # Rutas de Autenticación
 @api.route('/registrar', methods=['POST'])
 def create_user():
@@ -49,6 +50,7 @@ def login():
         return jsonify({'error': 'Credenciales inválidas'}), 401
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
 # Rutas de Usuario
 @api.route('/usuarios/perfil', methods=['GET'])
 @jwt_required()
@@ -84,6 +86,7 @@ def update_profile():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+    
 # Rutas de Productos
 @api.route('/productos', methods=['GET'])
 def get_products():
@@ -101,6 +104,7 @@ def get_product(id):
         return jsonify(product.serialize()), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 # Rutas de Pedidos
 @api.route('/pedidos', methods=['POST'])
 @jwt_required()
@@ -147,6 +151,7 @@ def create_order():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+
 # Ruta de Pago
 @api.route('/create-payment-intent', methods=['POST'])
 @jwt_required()

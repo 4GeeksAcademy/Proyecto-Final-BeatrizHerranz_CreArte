@@ -6,6 +6,7 @@ import "../../styles/shoppingCart.css";
 const ShoppingCart = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+  
   // Calcula el total del carrito
   const total = store.cart.reduce((acc, item) => {
     const precio = parseFloat(item.precio.replace('€', '').trim());

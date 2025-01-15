@@ -132,7 +132,7 @@ const getState = ({ getStore, setStore }) => {
                 }
             },
 
-            // Toggle favoritos (añadir/quitar)
+            // Toggle favoritos 
             toggleFavorite: async (item) => {
                 const store = getStore();
                 try {

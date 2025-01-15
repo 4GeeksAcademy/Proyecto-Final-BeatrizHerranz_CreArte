@@ -101,12 +101,22 @@ export default function Private() {
                                                     <h6 className="mb-1">{item.nombre}</h6>
                                                     <small className="text-muted">{item.precio}</small>
                                                 </div>
-                                                <button
-                                                    className="btn btn-sm btn-outline-primary me-2"
-                                                    onClick={() => actions.addToCart(item)}
-                                                >
-                                                    <i className="fas fa-shopping-cart"></i>
-                                                </button>
+                                                <div>
+                                                    {/* Botón para añadir al carrito */}
+                                                    <button
+                                                        className="btn btn-sm btn-outline-primary me-2"
+                                                        onClick={() => actions.addToCart(item)}
+                                                    >
+                                                        <i className="fas fa-shopping-cart"></i> Agregar al carrito
+                                                    </button>
+                                                    {/* Botón para eliminar de favoritos */}
+                                                    <button
+                                                        className="btn btn-sm btn-outline-danger"
+                                                        onClick={() => actions.toggleFavorite(item)} 
+                                                    >
+                                                        <i className="fas fa-heart-broken"></i> Eliminar de Favoritos
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}

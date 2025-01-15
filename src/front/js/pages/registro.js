@@ -1,72 +1,49 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 export default function Registro() {
-
-    // Estados para el formulario
-    const [signupData, setSignUpData] = useState({
-        email: "",
-        password: ""
-    });
-
-    // Estados para UI
+    // Estado para formulario 
+    const [signupData, setSignUpData] = useState({ email: "", password: "" });
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     // Manejar cambios en los inputs
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setSignUpData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        // Limpiar mensaje de error cuando el usuario empiece a escribir
-        if (errorMessage) setErrorMessage("");
+    const handleChange = ({ target: { name, value } }) => {
+        setSignUpData((prev) => ({ ...prev, [name]: value }));
+        if (errorMessage) setErrorMessage(""); 
     };
 
-    // Manejar envío del formulario
+    // Manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setErrorMessage("");
         try {
             const response = await axios.post(
-                `${process.env.BACKEND_URL}/api/registrar`,
-                signupData,
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    timeout: 5000 // 5 segundos de timeout
-                }
+                `${process.env.BACKEND_URL}/api/registrar`, 
+                signupData, 
+                { headers: { "Content-Type": "application/json" }, timeout: 5000 }
             );
-            if (response.data && response.data.error) {
-                setErrorMessage(response.data.error);
-                return;
-            }
-            console.log("Usuario registrado exitosamente:", response.data);
-           
-            if (response.data.token) {
-                localStorage.setItem("token", response.data.token);
-            }
-            navigate("/login");
-        } catch (error) {
-            console.error("Error durante el registro:", error);
-            if (error.response) {
-                // Error con respuesta del servidor
-                setErrorMessage(error.response.data.mensaje || "Error en el registro. Por favor, verifica tus datos.");
-            } else if (error.request) {
-                // Error de conexión
-                setErrorMessage("No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet.");
+
+            if (response.data?.error) {
+                setErrorMessage(response.data.error); 
             } else {
-                // Otros errores
-                setErrorMessage("Ocurrió un error inesperado. Por favor, intenta nuevamente.");
+                console.log("Usuario registrado exitosamente:", response.data);
+                if (response.data.token) localStorage.setItem("token", response.data.token);
+                navigate("/login");
             }
+        } catch (error) {
+            const message = error.response?.data?.mensaje || 
+                            error.request ? "No se pudo conectar con el servidor." : 
+                            "Error inesperado.";
+            setErrorMessage(message);
         } finally {
             setIsLoading(false);
         }
     };
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
@@ -81,9 +58,7 @@ export default function Registro() {
                             )}
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">
-                                        Email
-                                    </label>
+                                    <label htmlFor="email" className="form-label">Email</label>
                                     <input
                                         type="email"
                                         className="form-control"
@@ -97,9 +72,7 @@ export default function Registro() {
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">
-                                        Contraseña
-                                    </label>
+                                    <label htmlFor="password" className="form-label">Contraseña</label>
                                     <input
                                         type="password"
                                         className="form-control"
@@ -117,19 +90,13 @@ export default function Registro() {
                                     </div>
                                 </div>
                                 <div className="d-grid gap-2">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                        disabled={isLoading}
-                                    >
+                                    <button type="submit" className="btn btn-primary" disabled={isLoading}>
                                         {isLoading ? (
                                             <>
                                                 <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                                                 Registrando...
                                             </>
-                                        ) : (
-                                            'Registrarse'
-                                        )}
+                                        ) : 'Registrarse'}
                                     </button>
                                 </div>
                             </form>

@@ -19,7 +19,7 @@ app.config["JWT_SECRET_KEY"] = "super-secret"
 jwt = JWTManager(app)
 
 # Habilitar CORS para permitir solicitudes desde tu frontend React
-CORS(app, origins=["https://musical-happiness-q7vjqpx69jvwc47x9-3000.app.github.dev", "https://musical-happiness-q7vjqpx69jvwc47x9-3001.app.github.dev"], methods=["GET", "POST", "PUT", "DELETE"], allow_headers=["Content-Type", "Authorization"])
+CORS(app, origins=["https://symmetrical-space-garbanzo-jjrv5qg94gpqcpgpx-3000.app.github.dev", "https://symmetrical-space-garbanzo-jjrv5qg94gpqcpgpx-3001.app.github.dev"], methods=["GET", "POST", "PUT", "DELETE"], allow_headers=["Content-Type", "Authorization"])
 
 # Configuración de la base de datos
 db_url = os.getenv("DATABASE_URL")

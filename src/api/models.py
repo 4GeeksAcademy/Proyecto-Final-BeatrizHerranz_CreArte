@@ -27,6 +27,7 @@ class User(db.Model):
             "is_active": self.is_active,
             "profile": self.profile.serialize() if self.profile else None
         }
+    
 class UserProfile(db.Model):
     __tablename__ = "user_profile"
     id = db.Column(db.Integer, primary_key=True)
@@ -46,6 +47,7 @@ class UserProfile(db.Model):
             "phone": self.phone,
             "user_id": self.user_id
         }
+    
 class Product(db.Model):
     __tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True)
@@ -66,6 +68,7 @@ class Product(db.Model):
             "image_url": self.image_url,
             "stock": self.stock
         }
+    
 class Order(db.Model):
     __tablename__ = "order"
     id = db.Column(db.Integer, primary_key=True)
@@ -85,6 +88,7 @@ class Order(db.Model):
             "created_at": self.created_at.isoformat(),
             "items": [item.serialize() for item in self.items]
         }
+    
 class OrderItem(db.Model):
     __tablename__ = "order_item"
     id = db.Column(db.Integer, primary_key=True)

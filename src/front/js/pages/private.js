@@ -8,36 +8,39 @@ export default function Private() {
     const { store, actions } = useContext(Context);
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const token = sessionStorage.getItem("token");
-        if (!token) {
-            navigate("/login");
-            return;
-        }
-        const checkAuth = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.BACKEND_URL}/api/private`,
-                    {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    }
-                );
-                setUserData(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error de autenticación:", error);
-                sessionStorage.removeItem("token");
-                navigate("/login");
-            }
-        };
-        checkAuth();
-    }, [navigate]);
+
+    // Función para cerrar sesión
     const handleLogout = () => {
         sessionStorage.removeItem("token");
-        navigate("/login");
+        navigate("/login"); 
     };
+
+    // Función para obtener los datos del usuario
+    const fetchUserData = async () => {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            navigate("/login");  
+            return;
+        }
+
+        try {
+            const response = await axios.get(`${process.env.BACKEND_URL}/api/private`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUserData(response.data);
+        } catch (error) {
+            console.error("Error al obtener los datos del usuario", error);
+            sessionStorage.removeItem("token"); 
+            navigate("/login");  
+        } finally {
+            setLoading(false);  
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, [navigate]);  
+
     if (loading) {
         return (
             <div className="container mt-5 text-center">
@@ -47,35 +50,36 @@ export default function Private() {
             </div>
         );
     }
+
     return (
         <div className="container mt-5">
             <div className="row">
-
                 {/* Información del Usuario */}
                 <div className="col-md-8 mb-4">
                     <div className="card">
                         <div className="card-body">
                             <div className="d-flex justify-content-between align-items-center mb-4">
                                 <h2>Mi Perfil</h2>
-                                <button
-                                    onClick={handleLogout}
-                                    className="btn btn-danger"
-                                >
+                                <button onClick={handleLogout} className="btn btn-danger">
                                     Cerrar Sesión
                                 </button>
                             </div>
-                            {userData && (
+                            {userData ? (
                                 <div>
-                                    <p><strong></strong> {userData.email}</p>
-                                    {userData.profile && (
+                                    {userData.profile ? (
                                         <>
+                                            <p><strong>Email:</strong> {userData.email}</p>
                                             <p><strong>Nombre:</strong> {userData.profile.first_name || 'No especificado'}</p>
                                             <p><strong>Apellidos:</strong> {userData.profile.last_name || 'No especificado'}</p>
                                             <p><strong>Teléfono:</strong> {userData.profile.phone || 'No especificado'}</p>
                                             <p><strong>Dirección:</strong> {userData.profile.address || 'No especificada'}</p>
                                         </>
+                                    ) : (
+                                        <p>No hay datos de perfil disponibles.</p>
                                     )}
                                 </div>
+                            ) : (
+                                <p>No se pudo obtener los datos del usuario.</p>
                             )}
                         </div>
                     </div>
@@ -97,15 +101,12 @@ export default function Private() {
                                                     <h6 className="mb-1">{item.nombre}</h6>
                                                     <small className="text-muted">{item.precio}</small>
                                                 </div>
-                                                <div>
-                                                    <button
-                                                        className="btn btn-sm btn-outline-primary me-2"
-                                                        onClick={() => actions.addToCart(item)}
-                                                    >
-                                                        :<i className="fas fa-shopping-cart"></i>:
-                                                    </button>
-
-                                                </div>
+                                                <button
+                                                    className="btn btn-sm btn-outline-primary me-2"
+                                                    onClick={() => actions.addToCart(item)}
+                                                >
+                                                    <i className="fas fa-shopping-cart"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     ))}
@@ -115,7 +116,7 @@ export default function Private() {
                     </div>
                 </div>
 
-                {/* Historial de Compras */}
+                {/* Historial de Compras / Carrito Actual */}
                 <div className="col-12">
                     <div className="card">
                         <div className="card-body">
@@ -130,7 +131,7 @@ export default function Private() {
                                                 <div>
                                                     <h6 className="mb-1">{item.nombre}</h6>
                                                     <small className="text-muted">
-                                                        Cantidad: {item.cantidad || 1} x {item.precio}€
+                                                        Cantidad: {item.cantidad || 1} x {item.precio}
                                                     </small>
                                                 </div>
                                                 <button
@@ -145,7 +146,7 @@ export default function Private() {
                                     <div className="mt-3">
                                         <button
                                             className="btn btn-success"
-                                            onClick={() => navigate('/carrito')}
+                                            onClick={() => navigate("/carrito")}
                                         >
                                             Ir al Carrito
                                         </button>

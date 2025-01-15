@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,26 +10,23 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    // Para limpiar el componente al desmontar
-    useEffect(() => {
-        let isSubscribed = true;
-        return () => {
-            isSubscribed = false;
-        };
-    }, []);
+
+    // Manejar cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setLoginData(prev => ({
+        setLoginData((prev) => ({
             ...prev,
             [name]: value
         }));
         if (errorMessage) setErrorMessage("");
     };
 
+    // Manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        setErrorMessage("");
+        setErrorMessage(""); 
+
         try {
             const response = await axios.post(
                 `${process.env.BACKEND_URL}/api/login`, 
@@ -39,11 +36,10 @@ export default function Login() {
                     timeout: 5000
                 }
             );
-            // Verificar la estructura correcta de la respuesta
+
+            // Verificar si la respuesta contiene el token de acceso
             if (response.data && response.data.access_token) {
-                // Guardar el token
                 sessionStorage.setItem("token", response.data.access_token);
-                // Guardar información del usuario si es necesario
                 if (response.data.user) {
                     sessionStorage.setItem("user", JSON.stringify(response.data.user));
                 }
@@ -53,18 +49,12 @@ export default function Login() {
             }
         } catch (error) {
             console.error("Error de autenticación:", error);
-            if (error.response) {
-                setErrorMessage(error.response.data.error || "Credenciales inválidas");
-            } else if (error.request) {
-                setErrorMessage("No se pudo conectar con el servidor");
-            } else {
-                setErrorMessage("Error al iniciar sesión");
-            }
+            setErrorMessage(error?.response?.data?.error || "Error al iniciar sesión");
         } finally {
             setIsLoading(false);
         }
     };
-    
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">

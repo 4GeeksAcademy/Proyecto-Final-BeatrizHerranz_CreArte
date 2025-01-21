@@ -16,6 +16,7 @@ import Navbar from "./component/navbar";
 import Footer from "./component/footer";
 import Bonos from "./pages/bonos";
 import ShoppingCart from "./pages/shoppingCart";
+import CheckoutPage from "./pages/checkout";
 
 //create your first component
 const Layout = () => {
@@ -37,6 +38,7 @@ const Layout = () => {
                         <Route element={<Clases />} path="/clases" />
                         <Route element={<Bonos />} path="/bonos" />
                         <Route element={<ShoppingCart />} path="/carrito" />
+                        <Route element={<CheckoutPage />} path="/checkout" />
                         <Route element={<Private />} path="/private" />
                         <Route element={<Registro />} path="/registro" />
                         <Route element={<Login />} path="/login" />

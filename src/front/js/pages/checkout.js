@@ -16,7 +16,7 @@ const CheckoutPage = () => {
 
       <div className="text-center mt-5">
         <Elements stripe={stripePromise}>
-          <PaymentForm navigate={navigate} />  
+          <CheckoutForm navigate={navigate} />  
         </Elements>
       </div>
     </div>

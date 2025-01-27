@@ -4,9 +4,11 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from flask_cors import CORS
 import stripe
 import os
+
 api = Blueprint('api', __name__)
 CORS(api)
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
 # Rutas de Autenticación
 @api.route('/registrar', methods=['POST'])
 def create_user():
@@ -47,6 +49,7 @@ def login():
         return jsonify({'error': 'Credenciales inválidas'}), 401
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 # Rutas de Usuario
 @api.route('/usuarios/perfil', methods=['GET'])
 @jwt_required()
@@ -82,6 +85,7 @@ def update_profile():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+
 # Rutas de Productos
 @api.route('/productos', methods=['GET'])
 def get_products():
@@ -99,6 +103,7 @@ def get_product(id):
         return jsonify(product.serialize()), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 # Rutas de Pedidos
 @api.route('/pedidos', methods=['POST'])
 @jwt_required()
@@ -145,18 +150,34 @@ def create_order():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+
 # Ruta de Pago
 @api.route('/create-payment', methods=['POST'])
 def create_payment():
     response_body = {}
     try:
+        # Depuración para verificar la clave secreta de Stripe
+        print(f"Stripe API Key: {stripe.api_key}")
+
+        # Obtener datos de la solicitud
         data = request.json
-        intent = stripe.PaymentIntent.create(amount=data['amount'],
-                                             currency=data['currency'],
-                                             automatic_payment_methods={'enabled': True})
+        if not data.get('amount') or not data.get('currency'):
+            return jsonify({'error': 'Faltan los campos "amount" o "currency"'}), 400
+
+        # Crear el PaymentIntent
+        intent = stripe.PaymentIntent.create(
+            amount=data['amount'],  
+            currency=data['currency'],
+            automatic_payment_methods={'enabled': True}
+        )
+
+        # Devolver client_secret
         response_body['client_secret'] = intent['client_secret']
-        return response_body, 200
+        return jsonify(response_body), 200
+
     except Exception as e:
+        # Manejar errores y devolver el mensaje
+        print(f"Error en /create-payment: {e}")
         response_body['success'] = False
         response_body['error'] = str(e)
-        return response_body, 403
+        return jsonify(response_body), 403
